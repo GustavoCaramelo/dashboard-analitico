@@ -1,13 +1,14 @@
 import React from "react";
-import { Button } from "@mui/material";
+import Sidebar from "./components/Sidebar";
+import Dashboard from "./components/Dashboard";
 
 function App() {
   return (
-    <div style={{ textAlign: "center", marginTop: "50px" }}>
-      <h1>Dashboard Analítico</h1>
-      <Button variant="contained" color="primary">
-        Clique Aqui
-      </Button>
+    <div style={{ display: "flex", flexDirection: "row-reverse" }}>
+      <Sidebar />
+      <main style={{ flexGrow: 1, padding: "20px" }}>
+        <Dashboard />
+      </main>
     </div>
   );
 }
