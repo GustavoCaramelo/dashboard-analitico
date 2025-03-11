@@ -1,17 +1,42 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Card, CardContent, Typography } from "@mui/material";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 
-const data = [
-  { month: "Jan", sales: 4000 },
-  { month: "Fev", sales: 3000 },
-  { month: "Mar", sales: 5000 },
-  { month: "Abr", sales: 7000 },
-  { month: "Mai", sales: 6000 },
-  { month: "Jun", sales: 8000 },
-];
+const fullData: Record<"last7Days" | "lastMonth" | "last6Months", { day?: string; month?: string; sales: number }[]> = {
+  last7Days: [
+    { day: "Seg", sales: 150 },
+    { day: "Ter", sales: 220 },
+    { day: "Qua", sales: 180 },
+    { day: "Qui", sales: 250 },
+    { day: "Sex", sales: 300 },
+    { day: "Sáb", sales: 350 },
+    { day: "Dom", sales: 200 },
+  ],
+  lastMonth: [
+    { month: "Jan", sales: 200 },
+    { month: "Fev", sales: 400 },
+    { month: "Mar", sales: 600 },
+    { month: "Abr", sales: 800 },
+    { month: "Mai", sales: 1000 },
+    { month: "Jun", sales: 1200 },
+  ],
+  last6Months: [
+    { month: "Jan", sales: 500 },
+    { month: "Fev", sales: 800 },
+    { month: "Mar", sales: 900 },
+    { month: "Abr", sales: 1200 },
+    { month: "Mai", sales: 1500 },
+    { month: "Jun", sales: 2000 },
+  ],
+};
 
-const SalesChart: React.FC = () => {
+const SalesChart: React.FC<{ filter: string }> = ({ filter }) => {
+  const [data, setData] = useState<{ day?: string; month?: string; sales: number }[]>(fullData.lastMonth);
+
+  useEffect(() => {
+    setData(fullData[filter as "last7Days" | "lastMonth" | "last6Months"]);
+  }, [filter]);
+
   return (
     <Card>
       <CardContent>

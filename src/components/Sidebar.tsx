@@ -2,10 +2,17 @@ import React, { useState } from "react";
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Divider } from "@mui/material";
 import { Dashboard, Settings, MenuOpen } from "@mui/icons-material";
 import SettingsModal from "./SettingsModal"; // Importando o modal
+import { ThemeProvider, createTheme } from "@mui/material/styles";
 
-const Sidebar: React.FC = () => {
+interface SidebarProps {
+  onThemeChange: () => void;
+  darkMode: boolean;
+}
+
+const Sidebar: React.FC<SidebarProps> = ({ onThemeChange, darkMode }) => {
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false); // Estado do modal
+  const [sidebarLeft, setSidebarLeft] = useState(true);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -56,7 +63,13 @@ const Sidebar: React.FC = () => {
       </Drawer>
 
       {/* Modal de Configurações */}
-      <SettingsModal open={settingsOpen} onClose={() => setSettingsOpen(false)} />
+      <SettingsModal
+        open={settingsOpen}
+        onClose={() => setSettingsOpen(false)}
+        onThemeChange={onThemeChange}  // Passando a função de alteração de tema
+        onSidebarPositionChange={() => setSidebarLeft(!sidebarLeft)}
+        darkMode={darkMode}  // Passando o estado darkMode para o SettingsModal
+      />
     </>
   );
 };

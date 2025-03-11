@@ -1,12 +1,22 @@
-import React from "react";
-import { Modal, Box, Typography, Button } from "@mui/material";
+import React, { useState } from "react";
+import { Modal, Box, Typography, Button, Switch, FormControlLabel } from "@mui/material";
 
 interface SettingsModalProps {
   open: boolean;
   onClose: () => void;
+  onThemeChange: () => void;
+  onSidebarPositionChange: () => void;
+  darkMode: boolean; // Adicionando a propriedade darkMode
 }
 
-const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) => {
+const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose, onThemeChange, onSidebarPositionChange, darkMode }) => {
+  const [sidebarLeft, setSidebarLeft] = useState(true);
+
+  const handleSidebarToggle = () => {
+    setSidebarLeft(!sidebarLeft);
+    onSidebarPositionChange(); // Altera a posição do sidebar
+  };
+
   return (
     <Modal open={open} onClose={onClose} aria-labelledby="settings-modal">
       <Box
@@ -25,9 +35,17 @@ const SettingsModal: React.FC<SettingsModalProps> = ({ open, onClose }) => {
         <Typography variant="h6" id="settings-modal">
           Configurações
         </Typography>
-        <Typography variant="body1" sx={{ mt: 2 }}>
-          Aqui você pode alterar as configurações do sistema.
-        </Typography>
+
+        <FormControlLabel
+          control={<Switch checked={darkMode} onChange={onThemeChange} />}
+          label="Modo Escuro"
+          sx={{ mt: 2 }}
+        />
+
+        <Button variant="outlined" fullWidth sx={{ mt: 3 }} onClick={handleSidebarToggle}>
+          {sidebarLeft ? "Mover Sidebar para Direita" : "Mover Sidebar para Esquerda"}
+        </Button>
+
         <Button variant="contained" sx={{ mt: 3 }} onClick={onClose}>
           Fechar
         </Button>
