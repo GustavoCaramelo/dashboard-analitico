@@ -1,18 +1,18 @@
 import React, { useState } from "react";
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Divider } from "@mui/material";
 import { Dashboard, Settings, MenuOpen } from "@mui/icons-material";
-import SettingsModal from "./SettingsModal"; // Importando o modal
-import { ThemeProvider, createTheme } from "@mui/material/styles";
+import SettingsModal from "./SettingsModal";
 
 interface SidebarProps {
-  onThemeChange: () => void;
   darkMode: boolean;
+  onThemeChange: () => void;
+  sidebarLeft: boolean;
+  onSidebarPositionChange: () => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({ onThemeChange, darkMode }) => {
+const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft, onSidebarPositionChange }) => {
   const [open, setOpen] = useState(false);
-  const [settingsOpen, setSettingsOpen] = useState(false); // Estado do modal
-  const [sidebarLeft, setSidebarLeft] = useState(true);
+  const [settingsOpen, setSettingsOpen] = useState(false);
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -22,7 +22,7 @@ const Sidebar: React.FC<SidebarProps> = ({ onThemeChange, darkMode }) => {
     <>
       <Drawer
         variant="permanent"
-        anchor="right"
+        anchor={sidebarLeft ? "left" : "right"}
         open={open}
         sx={{
           width: open ? 240 : 60,
@@ -31,30 +31,50 @@ const Sidebar: React.FC<SidebarProps> = ({ onThemeChange, darkMode }) => {
             width: open ? 240 : 60,
             transition: "0.3s",
             overflowX: "hidden",
+            backgroundColor: darkMode ? "#1E1E1E" : "#fff",
+            color: darkMode ? "#E0E0E0" : "#000",
           },
         }}
       >
         <List>
-          {/* Botão para Minimizar */}
-          <ListItem component="button" onClick={toggleDrawer} sx={{ justifyContent: "center" }}>
-            <IconButton>
+          {/* Botão de abrir/fechar sidebar */}
+          <ListItem 
+            component="button" 
+            onClick={toggleDrawer} 
+            sx={{ 
+              justifyContent: "center", 
+              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
+            }}
+          >
+            <IconButton sx={{ color: darkMode ? "#B0B0B0" : "#000" }}>
               <MenuOpen sx={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "0.3s" }} />
             </IconButton>
           </ListItem>
 
-          <Divider />
+          <Divider sx={{ backgroundColor: darkMode ? "#444" : "#ccc" }} />
 
           {/* Botão Dashboard */}
-          <ListItem component="button">
-            <ListItemIcon>
+          <ListItem 
+            component="button" 
+            sx={{ 
+              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
+            }}
+          >
+            <ListItemIcon sx={{ color: darkMode ? "#B0B0B0" : "#000" }}>
               <Dashboard />
             </ListItemIcon>
             {open && <ListItemText primary="Dashboard" />}
           </ListItem>
 
           {/* Botão Configurações */}
-          <ListItem component="button" onClick={() => setSettingsOpen(true)}>
-            <ListItemIcon>
+          <ListItem 
+            component="button" 
+            onClick={() => setSettingsOpen(true)}
+            sx={{ 
+              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
+            }}
+          >
+            <ListItemIcon sx={{ color: darkMode ? "#B0B0B0" : "#000" }}>
               <Settings />
             </ListItemIcon>
             {open && <ListItemText primary="Configurações" />}
@@ -66,9 +86,8 @@ const Sidebar: React.FC<SidebarProps> = ({ onThemeChange, darkMode }) => {
       <SettingsModal
         open={settingsOpen}
         onClose={() => setSettingsOpen(false)}
-        onThemeChange={onThemeChange}  // Passando a função de alteração de tema
-        onSidebarPositionChange={() => setSidebarLeft(!sidebarLeft)}
-        darkMode={darkMode}  // Passando o estado darkMode para o SettingsModal
+        onThemeChange={onThemeChange}
+        onSidebarPositionChange={onSidebarPositionChange}
       />
     </>
   );

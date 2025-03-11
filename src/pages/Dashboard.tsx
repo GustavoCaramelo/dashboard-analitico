@@ -4,9 +4,33 @@ import DateFilter from "../components/filters/DateFilter";
 import UsersChart from "../components/charts/UsersChart";
 import ProfitChart from "../components/charts/ProfitChart";
 import SalesChart from "../components/charts/SalesChart";
+import { useTheme } from "@mui/material";
 
 const Dashboard: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("lastMonth");
+  const theme = useTheme();
+
+  const chartOptions = {
+    plugins: {
+      legend: {
+        labels: {
+          color: theme.palette.text.primary, // Ajusta a cor da legenda
+        },
+      },
+    },
+    scales: {
+      x: {
+        ticks: {
+          color: theme.palette.text.primary, // Ajusta cor do eixo X
+        },
+      },
+      y: {
+        ticks: {
+          color: theme.palette.text.primary, // Ajusta cor do eixo Y
+        },
+      },
+    },
+  };
 
   return (
     <Box sx={{ flexGrow: 1, padding: 2 }}>

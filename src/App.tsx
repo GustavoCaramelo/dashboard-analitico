@@ -1,27 +1,36 @@
 import React, { useState } from "react";
-import { ThemeProvider, createTheme } from "@mui/material/styles";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
+import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
+  const [sidebarLeft, setSidebarLeft] = useState(true); // Novo estado para posição do sidebar
 
-  // Definindo o tema conforme o estado darkMode
   const theme = createTheme({
     palette: {
       mode: darkMode ? "dark" : "light",
+      background: {
+        default: darkMode ? "#121212" : "#f4f4f4",
+        paper: darkMode ? "#1E1E1E" : "#fff",
+      },
+      text: {
+        primary: darkMode ? "#E0E0E0" : "#000",
+        secondary: darkMode ? "#B0B0B0" : "#555",
+      },
     },
   });
 
-  // Função para alternar entre os modos claro e escuro
-  const handleThemeChange = () => {
-    setDarkMode(!darkMode);
-  };
-
   return (
     <ThemeProvider theme={theme}>
-      <div style={{ display: "flex", flexDirection: "row-reverse" }}>
-        <Sidebar onThemeChange={handleThemeChange} darkMode={darkMode} />
+      <CssBaseline />
+      <div style={{ display: "flex", flexDirection: sidebarLeft ? "row" : "row-reverse" }}>
+        <Sidebar
+          darkMode={darkMode}
+          onThemeChange={() => setDarkMode(!darkMode)}
+          sidebarLeft={sidebarLeft}
+          onSidebarPositionChange={() => setSidebarLeft(!sidebarLeft)} // Alterna o lado
+        />
         <main style={{ flexGrow: 1, padding: "20px" }}>
           <Dashboard />
         </main>
