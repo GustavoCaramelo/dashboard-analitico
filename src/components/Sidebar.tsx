@@ -46,7 +46,7 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft,
               "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
             }}
           >
-            <IconButton sx={{ color: darkMode ? "#B0B0B0" : "#000" }}>
+            <IconButton sx={{ color: darkMode ? "#717171" : "#000" }}>
               <MenuOpen sx={{ transform: open ? "rotate(180deg)" : "rotate(0deg)", transition: "0.3s" }} />
             </IconButton>
           </ListItem>
@@ -60,7 +60,7 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft,
               "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
             }}
           >
-            <ListItemIcon sx={{ color: darkMode ? "#B0B0B0" : "#000" }}>
+            <ListItemIcon sx={{ color: darkMode ? "#717171" : "#000" }}>
               <Dashboard />
             </ListItemIcon>
             {open && <ListItemText primary="Dashboard" />}
@@ -74,7 +74,7 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft,
               "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
             }}
           >
-            <ListItemIcon sx={{ color: darkMode ? "#B0B0B0" : "#000" }}>
+            <ListItemIcon sx={{ color: darkMode ? "#717171" : "#000" }}>
               <Settings />
             </ListItemIcon>
             {open && <ListItemText primary="Configurações" />}

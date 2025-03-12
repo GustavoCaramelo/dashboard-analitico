@@ -12,8 +12,8 @@ const CategoryFilter: React.FC<{ onCategoryChange: (category: string) => void }>
 
   return (
     <FormControl sx={{ minWidth: 150, marginTop: "-65px", marginLeft: "20px" }}>
-      <InputLabel>Categoria</InputLabel>
-      <Select value={selectedCategory} onChange={handleChange} sx={{ marginTop: "7px" }}>
+      <InputLabel sx={{ fontSize: '20px' }}>Categoria</InputLabel>
+      <Select value={selectedCategory} onChange={handleChange} sx={{ marginTop: "15px" }}>
         <MenuItem value="all">Todas</MenuItem>
         <MenuItem value="Eletrônicos">Eletrônicos</MenuItem>
         <MenuItem value="Roupas">Roupas</MenuItem>
