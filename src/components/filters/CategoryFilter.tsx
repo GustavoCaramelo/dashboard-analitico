@@ -1,4 +1,3 @@
-// Novo componente para filtro por categoria
 import React, { useState } from "react";
 import { FormControl, MenuItem, Select, InputLabel } from "@mui/material";
 
@@ -16,9 +15,8 @@ const CategoryFilter: React.FC<{ onCategoryChange: (category: string) => void }>
       <InputLabel>Categoria</InputLabel>
       <Select value={selectedCategory} onChange={handleChange} sx={{ marginTop: "7px" }}>
         <MenuItem value="all">Todas</MenuItem>
-        <MenuItem value="eletronicos">Eletrônicos</MenuItem>
-        <MenuItem value="vestuario">Vestuário</MenuItem>
-        <MenuItem value="alimentos">Alimentos</MenuItem>
+        <MenuItem value="Eletrônicos">Eletrônicos</MenuItem>
+        <MenuItem value="Roupas">Roupas</MenuItem>
       </Select>
     </FormControl>
   );
