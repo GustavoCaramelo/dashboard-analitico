@@ -1,5 +1,5 @@
-import React, { useState } from "react";
-import { Grid, Box, Typography } from "@mui/material";
+import React, { useState, useEffect } from "react";
+import { Grid, Box, Typography, Paper, Skeleton } from "@mui/material";
 import DateFilter from "../components/filters/DateFilter";
 import UsersChart from "../components/charts/UsersChart";
 import ProfitChart from "../components/charts/ProfitChart";
@@ -10,7 +10,12 @@ import CategoryFilter from "../components/filters/CategoryFilter";
 const Dashboard: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("lastMonth");
   const [selectedCategory, setSelectedCategory] = useState("eletronicos");
+  const [loading, setLoading] = useState(true);
   const theme = useTheme();
+
+  useEffect(() => {
+    setTimeout(() => setLoading(false), 2000);
+  }, []);
 
   const chartOptions = {
     plugins: {
@@ -35,36 +40,34 @@ const Dashboard: React.FC = () => {
   };
 
   return (
-    <Box sx={{ flexGrow: 1, padding: 2 }}>
-      {/* Contêiner para alinhar título e filtros corretamente */}
+    <Box sx={{ flexGrow: 1, padding: 3 }}>
+      <Typography variant="h4" sx={{ fontWeight: "bold", mb: 2 }}>
+        Bem-Vindo aos Gráficos
+      </Typography>
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={4} sx={{ display: "flex", justifyContent: "flex-start", marginTop: '45px' }}>
+        <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "flex-start" }}>
           <DateFilter onFilterChange={setSelectedFilter} />
         </Grid>
-        
-        <Grid item xs={12} md={4} sx={{ display: "flex", justifyContent: "center", marginTop: '-35px' }}>
-          <Typography variant="h4" fontWeight="bold" textAlign="center">
-            Bem Vindo Aos Gráficos
-          </Typography>
-        </Grid>
-        
-        <Grid item xs={12} md={4} sx={{ display: "flex", justifyContent: "flex-end", marginTop: '45px' }}>
+        <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <CategoryFilter onCategoryChange={setSelectedCategory} />
         </Grid>
-      </Grid>
-
-      {/* Gráficos */}
-      <Grid container spacing={2} sx={{ marginTop: 0 }}>
+        
         <Grid item xs={12} md={6}>
-          <UsersChart filter={selectedFilter} />
+          <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+            {loading ? <Skeleton variant="rectangular" height={300} /> : <UsersChart filter={selectedFilter} />}
+          </Paper>
         </Grid>
-
+        
         <Grid item xs={12} md={6}>
-          <SalesChart timeFilter={selectedFilter} categoryFilter={selectedCategory} />
+          <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+            {loading ? <Skeleton variant="rectangular" height={300} /> : <SalesChart timeFilter={selectedFilter} categoryFilter={selectedCategory} />}
+          </Paper>
         </Grid>
-
+        
         <Grid item xs={12}>
-          <ProfitChart filter={selectedFilter} />
+          <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+            {loading ? <Skeleton variant="rectangular" height={300} /> : <ProfitChart filter={selectedFilter} />}
+          </Paper>
         </Grid>
       </Grid>
     </Box>
