@@ -6,6 +6,7 @@ import ProfitChart from "../components/charts/ProfitChart";
 import SalesChart from "../components/charts/SalesChart";
 import { useTheme } from "@mui/material";
 import CategoryFilter from "../components/filters/CategoryFilter";
+import ProductList from "../components/ProductList";
 
 const Dashboard: React.FC = () => {
   const [selectedFilter, setSelectedFilter] = useState("lastMonth");
@@ -45,28 +46,37 @@ const Dashboard: React.FC = () => {
         Bem-Vindo aos Gráficos
       </Typography>
       <Grid container spacing={2} alignItems="center">
-        <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "flex-start" }}>
+        <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <DateFilter onFilterChange={setSelectedFilter} />
         </Grid>
         <Grid item xs={12} md={6} sx={{ display: "flex", justifyContent: "flex-end" }}>
           <CategoryFilter onCategoryChange={setSelectedCategory} />
         </Grid>
-        
+
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
             {loading ? <Skeleton variant="rectangular" height={300} /> : <UsersChart filter={selectedFilter} />}
           </Paper>
         </Grid>
-        
+
         <Grid item xs={12} md={6}>
           <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
             {loading ? <Skeleton variant="rectangular" height={300} /> : <SalesChart timeFilter={selectedFilter} categoryFilter={selectedCategory} />}
           </Paper>
         </Grid>
-        
+
         <Grid item xs={12}>
           <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
             {loading ? <Skeleton variant="rectangular" height={300} /> : <ProfitChart filter={selectedFilter} />}
+          </Paper>
+        </Grid>
+
+        <Grid item xs={12}>
+          <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
+            <Typography variant="h6" sx={{ mb: 2 }}>
+              Lista de Produtos
+            </Typography>
+            {loading ? <Skeleton variant="rectangular" height={300} /> : <ProductList />}
           </Paper>
         </Grid>
       </Grid>
