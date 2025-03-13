@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { Drawer, List, ListItem, ListItemIcon, ListItemText, IconButton, Divider } from "@mui/material";
-import { Dashboard, Settings, MenuOpen } from "@mui/icons-material";
+import { Dashboard, Settings, MenuOpen, Inventory } from "@mui/icons-material"; // Importar ícone de produtos
+import { useNavigate } from "react-router-dom"; // Importar para navegação
 import SettingsModal from "./SettingsModal";
 
 interface SidebarProps {
@@ -13,6 +14,7 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft, onSidebarPositionChange }) => {
   const [open, setOpen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const navigate = useNavigate(); // Hook para navegação
 
   const toggleDrawer = () => {
     setOpen(!open);
@@ -38,12 +40,12 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft,
       >
         <List>
           {/* Botão de abrir/fechar sidebar */}
-          <ListItem 
-            component="button" 
-            onClick={toggleDrawer} 
-            sx={{ 
-              justifyContent: "center", 
-              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
+          <ListItem
+            component="button"
+            onClick={toggleDrawer}
+            sx={{
+              justifyContent: "center",
+              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" }
             }}
           >
             <IconButton sx={{ color: darkMode ? "#717171" : "#000" }}>
@@ -54,11 +56,12 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft,
           <Divider sx={{ backgroundColor: darkMode ? "#444" : "#ccc" }} />
 
           {/* Botão Dashboard */}
-          <ListItem 
-            component="button" 
-            sx={{ 
-              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
+          <ListItem
+            component="button"
+            sx={{
+              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" }
             }}
+            onClick={() => navigate("/dashboard")} // Redireciona para o Dashboard
           >
             <ListItemIcon sx={{ color: darkMode ? "#717171" : "#000" }}>
               <Dashboard />
@@ -67,17 +70,31 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft,
           </ListItem>
 
           {/* Botão Configurações */}
-          <ListItem 
-            component="button" 
+          <ListItem
+            component="button"
             onClick={() => setSettingsOpen(true)}
-            sx={{ 
-              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" } 
+            sx={{
+              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" }
             }}
           >
             <ListItemIcon sx={{ color: darkMode ? "#717171" : "#000" }}>
               <Settings />
             </ListItemIcon>
             {open && <ListItemText primary="Configurações" />}
+          </ListItem>
+
+          {/* Botão Produtos */}
+          <ListItem
+            component="button"
+            onClick={() => navigate("/products")} // Redireciona para a página de produtos
+            sx={{
+              "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" }
+            }}
+          >
+            <ListItemIcon sx={{ color: darkMode ? "#717171" : "#000" }}>
+              <Inventory /> {/* Ícone de produtos */}
+            </ListItemIcon>
+            {open && <ListItemText primary="Lista de Produtos" />}
           </ListItem>
         </List>
       </Drawer>
