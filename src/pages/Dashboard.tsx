@@ -73,9 +73,6 @@ const Dashboard: React.FC = () => {
 
         <Grid item xs={12}>
           <Paper elevation={3} sx={{ padding: 2, borderRadius: 2 }}>
-            <Typography variant="h6" sx={{ mb: 2 }}>
-              Lista de Produtos
-            </Typography>
             {loading ? <Skeleton variant="rectangular" height={300} /> : <ProductList />}
           </Paper>
         </Grid>
