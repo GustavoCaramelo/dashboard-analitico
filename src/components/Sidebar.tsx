@@ -61,7 +61,7 @@ const Sidebar: React.FC<SidebarProps> = ({ darkMode, onThemeChange, sidebarLeft,
             sx={{
               "&:hover": { backgroundColor: darkMode ? "#2E2E2E" : "#f0f0f0" }
             }}
-            onClick={() => navigate("/dashboard")} // Redireciona para o Dashboard
+            onClick={() => navigate("/")} // Redireciona para o Dashboard
           >
             <ListItemIcon sx={{ color: darkMode ? "#717171" : "#000" }}>
               <Dashboard />

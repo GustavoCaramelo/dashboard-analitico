@@ -9,94 +9,68 @@ interface SalesData {
   sales: number;
 }
 
-interface FilteredData {
-  [category: string]: SalesData[];
-}
-
 const generateRandomSales = () => Math.floor(Math.random() * 500) + 50;
 
-const SalesChart: React.FC<{ timeFilter: string; categoryFilter: string }> = ({ timeFilter, categoryFilter }) => {
+const SalesChart: React.FC<{ timeFilter: string }> = ({ timeFilter }) => {
   const [data, setData] = useState<SalesData[]>([]);
-  const [validCategory, setValidCategory] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const products = await apiService.getProducts();
-        const categorizedSales: Record<string, SalesData[]> = {};
-        
-        products.forEach((product: any) => {
-          const category = product.category;
-          if (!categorizedSales[category]) {
-            categorizedSales[category] = [];
-          }
-          if (timeFilter === "last7Days") {
-            categorizedSales[category].push({ day: "Seg", sales: generateRandomSales() });
-            categorizedSales[category].push({ day: "Ter", sales: generateRandomSales() });
-            categorizedSales[category].push({ day: "Qua", sales: generateRandomSales() });
-            categorizedSales[category].push({ day: "Qui", sales: generateRandomSales() });
-            categorizedSales[category].push({ day: "Sex", sales: generateRandomSales() });
-            categorizedSales[category].push({ day: "Sáb", sales: generateRandomSales() });
-            categorizedSales[category].push({ day: "Dom", sales: generateRandomSales() });
-          } else {
-            categorizedSales[category].push({ month: "Jan", sales: generateRandomSales() });
-            categorizedSales[category].push({ month: "Fev", sales: generateRandomSales() });
-            categorizedSales[category].push({ month: "Mar", sales: generateRandomSales() });
-            categorizedSales[category].push({ month: "Abr", sales: generateRandomSales() });
-            categorizedSales[category].push({ month: "Mai", sales: generateRandomSales() });
-            categorizedSales[category].push({ month: "Jun", sales: generateRandomSales() });
-          }
+        let salesData: SalesData[] = [];
+
+        if (timeFilter === "last7Days") {
+          salesData = [
+            { day: "Seg", sales: 0 },
+            { day: "Ter", sales: 0 },
+            { day: "Qua", sales: 0 },
+            { day: "Qui", sales: 0 },
+            { day: "Sex", sales: 0 },
+            { day: "Sáb", sales: 0 },
+            { day: "Dom", sales: 0 },
+          ];
+        } else {
+          salesData = [
+            { month: "Jan", sales: 0 },
+            { month: "Fev", sales: 0 },
+            { month: "Mar", sales: 0 },
+            { month: "Abr", sales: 0 },
+            { month: "Mai", sales: 0 },
+            { month: "Jun", sales: 0 },
+          ];
+        }
+
+        // Somar todas as vendas de todos os produtos
+        products.forEach(() => {
+          salesData.forEach((entry) => {
+            entry.sales += generateRandomSales();
+          });
         });
 
-        if (categoryFilter === "all") {
-          const mergedData: SalesData[] = [];
-          Object.values(categorizedSales).forEach(category => {
-            category.forEach((entry, index) => {
-              if (!mergedData[index]) {
-                mergedData[index] = { ...entry };
-              } else {
-                mergedData[index].sales += entry.sales;
-              }
-            });
-          });
-          setData(mergedData);
-          setValidCategory(true);
-        } else {
-          if (categorizedSales[categoryFilter]) {
-            setData(categorizedSales[categoryFilter]);
-            setValidCategory(true);
-          } else {
-            setData([]);
-            setValidCategory(false);
-          }
-        }
+        setData(salesData);
       } catch (error) {
         console.error("Erro ao buscar produtos:", error);
       }
     };
     fetchData();
-  }, [timeFilter, categoryFilter]);
+  }, [timeFilter]);
 
   return (
     <Card>
       <CardContent>
         <Typography variant="h5" gutterBottom>
-          Vendas {categoryFilter === "all" ? "de todas as categorias" : categoryFilter}
+          Vendas Totais
         </Typography>
-
-        {!validCategory ? (
-          <Typography color="error">Categoria não encontrada!</Typography>
-        ) : (
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={data}>
-              <CartesianGrid strokeDasharray="3 3" />
-              <XAxis dataKey={timeFilter === "last7Days" ? "day" : "month"} />
-              <YAxis />
-              <Tooltip />
-              <Line type="monotone" dataKey="sales" stroke="#8884d8" strokeWidth={3} />
-            </LineChart>
-          </ResponsiveContainer>
-        )}
+        <ResponsiveContainer width="100%" height={300}>
+          <LineChart data={data}>
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis dataKey={timeFilter === "last7Days" ? "day" : "month"} />
+            <YAxis />
+            <Tooltip />
+            <Line type="monotone" dataKey="sales" stroke="#8884d8" strokeWidth={3} />
+          </LineChart>
+        </ResponsiveContainer>
       </CardContent>
     </Card>
   );

@@ -1,11 +1,13 @@
 import React, { useState } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Sidebar from "./components/Sidebar";
 import Dashboard from "./pages/Dashboard";
+import ProductsPage from "./pages/ProductList"; // Importando a página de produtos
 import { ThemeProvider, createTheme, CssBaseline } from "@mui/material";
 
 function App() {
   const [darkMode, setDarkMode] = useState(false);
-  const [sidebarLeft, setSidebarLeft] = useState(true); // Novo estado para posição do sidebar
+  const [sidebarLeft, setSidebarLeft] = useState(true);
 
   const theme = createTheme({
     palette: {
@@ -24,17 +26,22 @@ function App() {
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />
-      <div style={{ display: "flex", flexDirection: sidebarLeft ? "row" : "row-reverse" }}>
-        <Sidebar
-          darkMode={darkMode}
-          onThemeChange={() => setDarkMode(!darkMode)}
-          sidebarLeft={sidebarLeft}
-          onSidebarPositionChange={() => setSidebarLeft(!sidebarLeft)} // Alterna o lado
-        />
-        <main style={{ flexGrow: 1, padding: "20px" }}>
-          <Dashboard />
-        </main>
-      </div>
+      <Router>
+        <div style={{ display: "flex", flexDirection: sidebarLeft ? "row" : "row-reverse" }}>
+          <Sidebar
+            darkMode={darkMode}
+            onThemeChange={() => setDarkMode(!darkMode)}
+            sidebarLeft={sidebarLeft}
+            onSidebarPositionChange={() => setSidebarLeft(!sidebarLeft)}
+          />
+          <main style={{ flexGrow: 1, padding: "20px" }}>
+            <Routes>
+              <Route path="/" element={<Dashboard />} />
+              <Route path="/products" element={<ProductsPage />} />
+            </Routes>
+          </main>
+        </div>
+      </Router>
     </ThemeProvider>
   );
 }

@@ -1,40 +1,40 @@
 import React, { useState, useEffect } from "react";
 import { Card, CardContent, Typography } from "@mui/material";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-
-const fullData: Record<"last7Days" | "lastMonth" | "last6Months", { day?: string; month?: string; users: number }[]> = {
-  last7Days: [
-    { day: "Seg", users: 150 },
-    { day: "Ter", users: 220 },
-    { day: "Qua", users: 180 },
-    { day: "Qui", users: 250 },
-    { day: "Sex", users: 300 },
-    { day: "Sáb", users: 350 },
-    { day: "Dom", users: 200 },
-  ],
-  lastMonth: [
-    { month: "Jan", users: 200 },
-    { month: "Fev", users: 400 },
-    { month: "Mar", users: 600 },
-    { month: "Abr", users: 800 },
-    { month: "Mai", users: 1000 },
-    { month: "Jun", users: 1200 },
-  ],
-  last6Months: [
-    { month: "Jan", users: 500 },
-    { month: "Fev", users: 800 },
-    { month: "Mar", users: 900 },
-    { month: "Abr", users: 1200 },
-    { month: "Mai", users: 1500 },
-    { month: "Jun", users: 2000 },
-  ],
-};
+import apiService from "../../services/apiService";
 
 const UsersChart: React.FC<{ filter: string }> = ({ filter }) => {
-  const [data, setData] = useState<{ day?: string; month?: string; users: number }[]>(fullData.lastMonth);
+  const [data, setData] = useState<{ day?: string; month?: string; users: number }[]>([]);
 
   useEffect(() => {
-    setData(fullData[filter as "last7Days" | "lastMonth" | "last6Months"]);
+    const fetchData = async () => {
+      try {
+        const products = await apiService.getProducts();
+        const productCount = products.length;
+        
+        const generateUsersData = (multiplier: number) => [
+          { day: "Seg", users: Math.floor(productCount * multiplier * 0.8) },
+          { day: "Ter", users: Math.floor(productCount * multiplier * 1.1) },
+          { day: "Qua", users: Math.floor(productCount * multiplier * 0.9) },
+          { day: "Qui", users: Math.floor(productCount * multiplier * 1.2) },
+          { day: "Sex", users: Math.floor(productCount * multiplier * 1.5) },
+          { day: "Sáb", users: Math.floor(productCount * multiplier * 1.7) },
+          { day: "Dom", users: Math.floor(productCount * multiplier * 1.3) },
+        ];
+
+        const fullData = {
+          last7Days: generateUsersData(3),
+          lastMonth: generateUsersData(10),
+          last6Months: generateUsersData(50),
+        };
+
+        setData(fullData[filter as "last7Days" | "lastMonth" | "last6Months"]);
+      } catch (error) {
+        console.error("Erro ao buscar dados dos produtos:", error);
+      }
+    };
+
+    fetchData();
   }, [filter]);
 
   return (
