@@ -22,14 +22,23 @@ Este projeto é um **Dashboard de Gestão** desenvolvido em **React** com integr
 📦 dashboard
  ┣ 📂 src
  ┃ ┣ 📂 components
- ┃ ┃ ┣ 📜 Chart.tsx
- ┃ ┃ ┣ 📜 ProfitChart.tsx
+ ┃ ┃ ┣ 📜 SettingsModal.tsx
+ ┃ ┃ ┣ 📜 ProductList.tsx
+ ┃ ┃ ┣ 📂 charts
+ ┃ ┃ ┃ ┣ 📜 ProfitChart.tsx
+ ┃ ┃ ┃ ┣ 📜 SalesChart.tsx
+ ┃ ┃ ┃ ┣ 📜 UsersChart.tsx
+ ┃ ┃ ┣ 📂 filters
+ ┃ ┃ ┃ ┣ 📜 DateFilter.tsx
+ ┃ ┣ 📂 hooks
+ ┃ ┃ ┣ 📜 useProducts.tsx
+ ┃ ┣ 📂 models
+ ┃ ┃ ┣ 📜 Products.ts
  ┃ ┣ 📂 pages
  ┃ ┃ ┣ 📜 Dashboard.tsx
+ ┃ ┃ ┣ 📜 ProductList.tsx
  ┃ ┣ 📂 services
  ┃ ┃ ┣ 📜 apiService.ts
- ┃ ┣ 📂 store
- ┃ ┃ ┣ 📜 useChartStore.ts
  ┃ ┣ 📂 styles
  ┃ ┃ ┣ 📜 global.css
  ┃ ┣ 📜 App.tsx
